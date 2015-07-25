@@ -22,6 +22,15 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                             password_confirmation: "password" }
     end
     assert_template 'users/show'
+    assert_not flash.nil?
   end
 
+  test "should display error message" do
+    get signup_path
+    post users_path user: { name:  "blargal",
+                            email: "blargal@aol",
+                            password:              "blargal",
+                            password_confirmation: "blargal" }
+    assert_select "div", "The form contains 1 error."
+  end
 end
